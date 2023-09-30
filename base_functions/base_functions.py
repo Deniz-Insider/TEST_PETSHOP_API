@@ -4,8 +4,8 @@ import uuid
 ENDPOINT = "https://petstore.swagger.io/v2/"
 class BaseFunctions():
 
-    def generate_payload(self):
-        pet_name = "pet_" + uuid.uuid4().hex
+    def generate_pet_payload(self):
+        pet_name = "pet_{}".format(uuid.uuid4().hex)
         photo_url = "photo_{}.com".format(uuid.uuid4().hex)
         return {
             "name": pet_name,
@@ -17,14 +17,18 @@ class BaseFunctions():
         }
 
     def create_new_pet(self):
-        return requests.put(ENDPOINT + "pet", json=self.generate_payload())
+        return requests.put(ENDPOINT + "pet", json=self.generate_pet_payload())
 
     def update_pet(self):
-        #generate new payload and create a new pet
-        #assert pet status
-        #update pet status
-        #assert updated status
-        return requests.put(ENDPOINT + "pet", json=self.generate_payload())
+        create_pet = self.create_new_pet()
+        create_pet_response = create_pet.json()
+        pet_id = create_pet_response["id"]
+
+        get_created_pet = requests.put(ENDPOINT + "pet/" + pet_id)
+        get_pet_response = get_created_pet.json()
+
+
+
 
         # task_response = self.create_new_pet()
         # task_id = task_response.json()["task"]["task_id"]
