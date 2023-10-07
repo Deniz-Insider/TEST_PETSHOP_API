@@ -49,12 +49,12 @@ class TestDemoApi(BaseFunctions):
 
         #update pet status
         new_payload = {
-            "status": "available"
+            "status": "sold"
         }
-        update_pet_request = requests.put(self.ENDPOINT + "pet/{}".format(pet_id), json=new_payload)
+        update_pet_request = requests.post(self.ENDPOINT + "pet/{}".format(pet_id), json=new_payload)
         #update_pet_response = update_pet_request.json()
 
         #print("Pet Status After: ", update_pet_response["status"])
         get_pet_request = requests.get(self.ENDPOINT + "pet/{}".format(pet_id))
         get_pet_response = get_pet_request.json()
-        print(get_pet_response)
+        print("Pet Status After: ", get_pet_response)
